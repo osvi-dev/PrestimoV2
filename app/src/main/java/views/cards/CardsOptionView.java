@@ -3,9 +3,11 @@ package views.cards;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.util.Builder;
+import models.cards.CardsModel;
 import views.utils.ResourceLoader;
 
 public class CardsOptionView implements Builder<Region> {
+    private final CardsModel model;
     private final HBox container = new HBox();
     private final double maxWidth = 700;
     private final double maxHeight = 250;
@@ -14,7 +16,8 @@ public class CardsOptionView implements Builder<Region> {
     private final Region electronics;
     private final Region whiteGoods;
     private final Region jewelry;
-    public CardsOptionView(Region electroncis, Region whiteGoods, Region jewelry ){
+    public CardsOptionView(Region electroncis, Region whiteGoods, Region jewelry, CardsModel model){
+        this.model = model;
         this.electronics = electroncis;
         this.whiteGoods = whiteGoods;
         this.jewelry = jewelry;
@@ -25,6 +28,7 @@ public class CardsOptionView implements Builder<Region> {
         this.container.setMaxWidth(maxWidth);
         this.container.setMaxHeight(maxHeight);
         this.container.setPrefHeight(maxHeight);
+        
     }
 
     @Override

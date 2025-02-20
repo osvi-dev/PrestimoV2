@@ -47,6 +47,11 @@ public class DashboardView implements Builder<Region> {
         this.sideBarView = sideBarView;
         this.service = service;
         this.model = model;
+
+        buyView.visibleProperty().bind(model.buyViewVisibleProperty());
+        loanView.visibleProperty().bind(model.loanViewVisibleProperty());
+        saleView.visibleProperty().bind(model.saleViewVisibleProperty());
+
     }
 
     @Override
@@ -96,7 +101,7 @@ public class DashboardView implements Builder<Region> {
      * @return Nodo que representa el área de contenido.
      */
     private Node createContent() {
-        contentContainer = new StackPane();
+        contentContainer = new StackPane(buyView, loanView, saleView);
         Responsive.bindingToParent(contentContainer, 1, 1);
 
         // Listener para cambios en la vista activa
@@ -105,17 +110,7 @@ public class DashboardView implements Builder<Region> {
         return contentContainer;
     }
 
-    /**
-     * Cambia la vista activa en el contenedor de contenido.
-     *
-     * @param activeView La nueva vista activa.
-     */
-    private void switchRightView(Region activeView) {
-        contentContainer.getChildren().setAll(activeView);
-        // Cada que cambia la ventana tengo que limpiar el buscador
-      
-        
-    }
+    
 
  
 }

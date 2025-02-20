@@ -26,4 +26,7 @@ public class TopBarController {
     public Region getView() {
         return view.build();
     }
+    public TopBarModel getModel() {
+        return model;
+    }
 }

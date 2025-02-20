@@ -21,7 +21,10 @@ public class BuyView extends ViewDashboard {
         super("buy", cards,electronics, whiteGoods, jewelry);
         this.model = model;
         this.container.getChildren().addAll(cards);
-        
+        cards.visibleProperty().bind(model.cardsVisibleProperty());
+        electronics.visibleProperty().bind(model.electronicsVisibleProperty());
+        whiteGoods.visibleProperty().bind(model.whiteGoodsVisibleProperty());
+        jewelry.visibleProperty().bind(model.jewelryVisibleProperty());
     }
      
 

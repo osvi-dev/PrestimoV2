@@ -8,16 +8,18 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.util.Builder;
+import models.cards.card.CardModel;
 import views.utils.ResourceLoader;
 import views.utils.Responsive;
 
 public class CardOptionView implements Builder<Region> {
+    private final CardModel model;
     private final VBox container;
     private final String resource;
     private final String description;
     private final String title;
-    public CardOptionView(double width, double height, String resource, String title,String description){
-
+    public CardOptionView(double width, double height, String resource, String title,String description, CardModel model){
+        this.model = model;
         this.container = new VBox();
         //this.container.getStylesheets().add(ResourceLoader.load("/css/dashboard/cards/card.css"));
         this.container.getStyleClass().add("card");
@@ -33,7 +35,9 @@ public class CardOptionView implements Builder<Region> {
     @Override
     public Region build() {
         container.setAlignment(Pos.CENTER);
-        
+        container.setOnMouseClicked(evt->{
+            model.isSelectedProperty().set(true);
+        });
         return container;
     }
 

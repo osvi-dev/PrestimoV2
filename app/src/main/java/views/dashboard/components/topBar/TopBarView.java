@@ -22,6 +22,7 @@ public class TopBarView implements Builder<Region> {
     private final Region searchBarView;
     private final double height = 60;
     private final HBox container;
+    private final Text title;
     private final HashMap<String, Function<?, ?>> handlers;
 
     public TopBarView(Region searchBarView,TopBarModel model,HashMap<String, Function<?, ?>> handlers){
@@ -29,6 +30,8 @@ public class TopBarView implements Builder<Region> {
         this.handlers = handlers;
         this.searchBarView = searchBarView;
         this.container = new HBox();
+        this.title = new Text();
+        this.title.textProperty().bind(model.titleProperty());
         container.getStylesheets().add(ResourceLoader.load("/css/dashboard/topbar.css"));
     }
     @Override
@@ -49,7 +52,6 @@ public class TopBarView implements Builder<Region> {
     }
 
     private Node createTitleContainer(){
-        Text title = new Text("Algo");
         title.setFont(new Font("Roboto", 25));
         title.setFill(Color.rgb(72, 76, 82));
         HBox container = new HBox(title);

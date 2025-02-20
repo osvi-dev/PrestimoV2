@@ -1,12 +1,17 @@
 package controllers.cards;
 
+
 import controllers.cards.card.CardOptionController;
+import interactors.cards.CardsInteractor;
 import javafx.scene.layout.Region;
+import models.cards.CardsModel;
 import views.cards.CardsOptionView;
 
 public class CardsOptionController {
 
     private final CardsOptionView view;
+    private final CardsModel model;
+    private final CardsInteractor interactor;
 
     /**
      *  Data referente a Electronica
@@ -49,19 +54,14 @@ public class CardsOptionController {
                 
 
     public CardsOptionController(){
+        this.model = new CardsModel();
         this.electronics = new CardOptionController(electroncisResource, electronicsTitle,electroncisDescription);
-        this.electronics.getView().setOnMouseClicked(evt->{
-            
-        });
+
         this.whiteGoods = new CardOptionController(whiteGoodsResource, whiteGoodsTitle, whiteGoodsDescription);
-        this.whiteGoods.getView().setOnMouseClicked(evt->{
-            
-        });
+       
         this.jewelry = new CardOptionController(jewelryResource, jewelryTitle, jewelryDescription);
-        this.jewelry.getView().setOnMouseClicked(evt->{
-           
-        });
-        this.view = new CardsOptionView(electronics.getView(), whiteGoods.getView(), jewelry.getView());
+        this.interactor = new CardsInteractor(model, electronics.getModel(), whiteGoods.getModel(), jewelry.getModel());
+        this.view = new CardsOptionView(electronics.getView(), whiteGoods.getView(), jewelry.getView(),model);
         
         
         
@@ -69,6 +69,9 @@ public class CardsOptionController {
 
     public Region getView(){
         return view.build();
+    }
+    public CardsModel getModel(){
+        return model;
     }
     
 }

@@ -55,8 +55,7 @@ public class OptionView implements Builder<Region> {
 
 
         HBox innerContainer = new HBox(containerIcon,containerText);
-        container.setOnMouseEntered(event ->{
-           
+        this.container.setOnMouseEntered(event ->{
             containerIcon.getChildren().clear();
             containerIcon.getChildren().add(ResourceLoader.makeIcon(selectedResource, 24));
             text.setFill(Color.WHITE);
@@ -66,12 +65,20 @@ public class OptionView implements Builder<Region> {
             containerIcon.getChildren().add(ResourceLoader.makeIcon(resource,24));
             text.setFill(Color.BLACK);
         });
-      container.getStyleClass().add("container");
+       this.container.getStyleClass().add("container");
        this.container.getChildren().clear();
        this.container.getChildren().add(innerContainer);
-       container.setPrefWidth(width);
+       this.container.setPrefWidth(width);
+       createClickHandler();
         return container;
 
+    }
+
+    private void createClickHandler(){
+        
+        container.setOnMouseClicked(event -> {
+            model.isSelected().set(true);
+        });
     }
 
 

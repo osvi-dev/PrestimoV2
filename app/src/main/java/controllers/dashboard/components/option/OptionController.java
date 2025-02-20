@@ -17,4 +17,7 @@ public class OptionController {
     public Region getView() {
         return view.build();
     }
+    public OptionModel getModel() {
+        return model;
+    }
 }
