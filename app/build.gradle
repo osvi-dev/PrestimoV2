@@ -50,3 +50,273 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+
+// Creacion de comandos
+// Crear modelo
+task modelo {
+    doLast {
+        // Verificar que se haya proporcionado un nombre
+        if (!project.hasProperty("nombre")) {
+            throw new GradleException("Debes proporcionar un nombre para el modelo. Ejemplo: ./gradlew view -Pname=NombreDelModelor")
+        }
+        
+        // Obtener el nombre 
+        def controllerName = project.property("nombre")
+        // Verificamos que no este vacio
+        if (controllerName == null || controllerName.trim().isEmpty()) {
+            throw new GradleException("El nombre del modelo no puede estar vacío.")
+        }
+        def controllerClassName = "${controllerName}Model"
+
+        // Verificamos que exista la carpeta, si no, la creamos
+        def controllerDir = new File("${project.projectDir}/src/main/java/models/${controllerName}")
+        if (!controllerDir.exists()) {
+            controllerDir.mkdirs()
+        }
+
+        // Ruta completa del archivo 
+        def controllerPath = "${controllerDir.absolutePath}/${controllerClassName}.java"
+
+        // Verificar que el controlador no exista
+        if (new File(controllerPath).exists()) {
+            throw new GradleException("Ya existe un modelo con el nombre proporcionado.")
+        } else {
+            // Crear el archivo 
+            new File(controllerPath).text = """package models;
+
+public class ${controllerClassName} {
+
+    public ${controllerClassName}() {
+        
+    }
+}
+"""
+            println "Modelo '${controllerClassName}' creado exitosamente en la ruta: ${controllerPath}"
+        }
+    }
+}
+
+
+// Crear una vista
+task vista {
+    doLast {
+        // Verificar que se haya proporcionado un nombre
+        if (!project.hasProperty("nombre")) {
+            throw new GradleException("Debes proporcionar un nombre para la vista. Ejemplo: ./gradlew view -Pname=NombreDeLaVista")
+        }
+        
+        // Obtener el nombre 
+        def controllerName = project.property("nombre")
+        // Verificamos que no este vacio
+        if (controllerName == null || controllerName.trim().isEmpty()) {
+            throw new GradleException("El nombre de la vista no puede estar vacío.")
+        }
+        def controllerClassName = "${controllerName}View"
+
+        // Verificamos que exista la carpeta, si no, la creamos
+        def controllerDir = new File("${project.projectDir}/src/main/java/views/${controllerName}")
+        if (!controllerDir.exists()) {
+            controllerDir.mkdirs()
+        }
+
+        // Ruta completa del archivo 
+        def controllerPath = "${controllerDir.absolutePath}/${controllerClassName}.java"
+
+        // Verificar que el controlador no exista
+        if (new File(controllerPath).exists()) {
+            throw new GradleException("Ya existe una vista con el nombre proporcionado.")
+        } else {
+            // Crear el archivo 
+            new File(controllerPath).text = """package views;
+
+public class ${controllerClassName} {
+
+    public ${controllerClassName}() {
+        
+    }
+}
+"""
+            println "Vista '${controllerClassName}' creado exitosamente en la ruta: ${controllerPath}"
+        }
+    }
+}
+
+
+
+// Crear un controlador
+task controlador {
+    doLast {
+        // Verificar que se haya proporcionado un nombre
+        if (!project.hasProperty("nombre")) {
+            throw new GradleException("Debes proporcionar un nombre para el controlador. Ejemplo: ./gradlew controlador -Pname=NombreDelControlador")
+        }
+        
+        // Obtener el nombre 
+        def controllerName = project.property("nombre")
+        // Verificamos que no este vacio
+        if (controllerName == null || controllerName.trim().isEmpty()) {
+            throw new GradleException("El nombre  no puede estar vacío.")
+        }
+        def controllerClassName = "${controllerName}Controller"
+
+        // Verificamos que exista la carpeta, si no, la creamos
+        def controllerDir = new File("${project.projectDir}/src/main/java/controllers/${controllerName}")
+        if (!controllerDir.exists()) {
+            controllerDir.mkdirs()
+        }
+
+        // Ruta completa del archivo 
+        def controllerPath = "${controllerDir.absolutePath}/${controllerClassName}.java"
+
+        // Verificar que el controlador no exista
+        if (new File(controllerPath).exists()) {
+            throw new GradleException("Ya existe un controlador con el nombre proporcionado.")
+        } else {
+            // Crear el archivo 
+            new File(controllerPath).text = """package controllers;
+
+public class ${controllerClassName} {
+
+    public ${controllerClassName}() {
+        
+    }
+}
+"""
+            println "Controlador '${controllerClassName}' creado exitosamente en la ruta: ${controllerPath}"
+        }
+    }
+}
+
+
+
+// interactuador
+task interactuador {
+    doLast {
+        // Verificar que se haya proporcionado un nombre
+        if (!project.hasProperty("nombre")) {
+            throw new GradleException("Debes proporcionar un nombre para el interactuador. Ejemplo: ./gradlew interactuador -Pname=NombreDelInteractuador")
+        }
+        
+        // Obtener el nombre 
+        def controllerName = project.property("nombre")
+        // Verificamos que no este vacio
+        if (controllerName == null || controllerName.trim().isEmpty()) {
+            throw new GradleException("El nombre del interactuador no puede estar vacío.")
+        }
+        def controllerClassName = "${controllerName}Interactor"
+
+        // Verificamos que exista la carpeta, si no, la creamos
+        def controllerDir = new File("${project.projectDir}/src/main/java/interactors/${controllerName}")
+        if (!controllerDir.exists()) {
+            controllerDir.mkdirs()
+        }
+
+        // Ruta completa del archivo 
+        def controllerPath = "${controllerDir.absolutePath}/${controllerClassName}.java"
+
+        // Verificar que el controlador no exista
+        if (new File(controllerPath).exists()) {
+            throw new GradleException("Ya existe un interactuador con el nombre proporcionado.")
+        } else {
+            // Crear el archivo 
+            new File(controllerPath).text = """package interactors;
+
+public class ${controllerClassName} {
+
+    public ${controllerClassName}() {
+        
+    }
+}
+"""
+            println "Interactuador '${controllerClassName}' creado exitosamente en la ruta: ${controllerPath}"
+        }
+    }
+}
+
+// objeto
+task objeto {
+    doLast {
+        // Verificar que se haya proporcionado un nombre
+        if (!project.hasProperty("nombre")) {
+            throw new GradleException("Debes proporcionar un nombre para el objeto. Ejemplo: ./gradlew objeto -Pname=NombreDelObjeto")
+        }
+        
+        // Obtener el nombre 
+        def controllerName = project.property("nombre")
+        // Verificamos que no este vacio
+        if (controllerName == null || controllerName.trim().isEmpty()) {
+            throw new GradleException("El nombre del objeto no puede estar vacío.")
+        }
+        def controllerClassName = "${controllerName}Object"
+
+        // Verificamos que exista la carpeta, si no, la creamos
+        def controllerDir = new File("${project.projectDir}/src/main/java/domain_stuff/objects/${controllerName}")
+        if (!controllerDir.exists()) {
+            controllerDir.mkdirs()
+        }
+        
+        // Ruta completa del archivo 
+        def controllerPath = "${controllerDir.absolutePath}/${controllerClassName}.java"
+
+        // Verificar que el controlador no exista
+        if (new File(controllerPath).exists()) {
+            throw new GradleException("Ya existe un objecto con el nombre proporcionado.")
+        } else {
+            // Crear el archivo 
+            new File(controllerPath).text = """package objects;
+
+public class ${controllerClassName} {
+
+    public ${controllerClassName}() {
+        
+    }
+}
+"""
+            println "Objecto '${controllerClassName}' creado exitosamente en la ruta: ${controllerPath}"
+        }
+    }
+}
+
+// servicio
+task servicio {
+    doLast {
+        // Verificar que se haya proporcionado un nombre
+        if (!project.hasProperty("nombre")) {
+            throw new GradleException("Debes proporcionar un nombre para el servicio. Ejemplo: ./gradlew servicio -Pname=NombreDelServicio")
+        }
+        
+        // Obtener el nombre 
+        def controllerName = project.property("nombre")
+        // Verificamos que no este vacio
+        if (controllerName == null || controllerName.trim().isEmpty()) {
+            throw new GradleException("El nombre del servicio no puede estar vacío.")
+        }
+        def controllerClassName = "${controllerName}Service"
+
+        // Verificamos que exista la carpeta, si no, la creamos
+        def controllerDir = new File("${project.projectDir}/src/main/java/domain_stuff/services/${controllerName}")
+        if (!controllerDir.exists()) {
+            controllerDir.mkdirs()
+        }
+        
+        // Ruta completa del archivo 
+        def controllerPath = "${controllerDir.absolutePath}/${controllerClassName}.java"
+         // Verificar que el controlador no exista
+        if (new File(controllerPath).exists()) {
+            throw new GradleException("Ya existe un objecto con el nombre proporcionado.")
+        } else {
+            // Crear el archivo 
+            new File(controllerPath).text = """package services;
+
+public class ${controllerClassName} {
+
+    public ${controllerClassName}() {
+        
+    }
+}
+"""
+            println "Servicio '${controllerClassName}' creado exitosamente en la ruta: ${controllerPath}"
+        }
+    }
+}
