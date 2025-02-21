@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
 
-
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -20,7 +20,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.util.Builder;
 import models.buy.buyModels.BuyJewelryModel;
 import views.utils.ResourceLoader;
@@ -100,12 +99,6 @@ public class BuyJewelryView implements Builder<Region>{
         return container;
     }
 
-    private Node createOptionsContainer(){
-        HBox container = new HBox(createMetalsOptions());
-        container.setAlignment(Pos.CENTER);
-        container.setSpacing(600);
-        return container;
-    }
 
     private Node createMetalsOptions(){
         ComboBox<String> options = new ComboBox<>();
@@ -188,7 +181,7 @@ public class BuyJewelryView implements Builder<Region>{
     }
 
     private Node createWeightContainer(){
-        VBox container = new VBox(createWeightField_CaratageContainer(),createContianerWeightButtons(),createPercentangesOptionsBuyContianer(),createPercentangeOptionsCaratageContianer(), createCalculateButtonContainer());
+        VBox container = new VBox(createWeightField_CaratageContainer(),createContianerWeightButtons(),createPercentagesContainer(), createCalculateButtonContainer());
         Responsive.bindingToParentWidth(container, 1);
         container.setSpacing(10);
 
@@ -209,26 +202,25 @@ public class BuyJewelryView implements Builder<Region>{
         field.setMaxWidth(250);
         field.setMinHeight(30);
         field.disableProperty().bind(model.weight_field_node());
+
+       field.textProperty().addListener((observable, oldValue, newValue) -> {
+        try {
+            double weight = Double.parseDouble(newValue);
+            model.weight().set(weight);
+        } catch (NumberFormatException e) {
+            model.weight().set(0);
+        }
+    });
         return field;
     }
     private Node createContianerWeightButtons(){
-        HBox container = new HBox(createButtonAutomatic(),createButtonManual());
+        HBox container = new HBox(createButtonManual());
         container.setSpacing(20);
         return container;
     }
 
     private Node createButtonManual(){
         Button button = new Button("Ingresar peso manual");
-        button.setMinWidth(100);
-        button.setMinHeight(30);
-        button.getStyleClass().add("button-weight");
-        button.setOnMouseClicked(evt ->{
-            model.weight_field_node().set(false);
-        });
-        return button;
-    }
-     private Node createButtonAutomatic(){
-        Button button = new Button("Obtener peso automático");
         button.setMinWidth(100);
         button.setMinHeight(30);
         button.getStyleClass().add("button-weight");
@@ -251,7 +243,11 @@ public class BuyJewelryView implements Builder<Region>{
     }
 
     
-   
+   private Node createPercentagesContainer(){
+        HBox container = new HBox(createPercentangesOptionsBuyContianer(),createPercentangeOptionsCaratageContianer() );
+        container.setSpacing(25);
+        return container;
+   }
 
     private Node createTitlePercentages(String text){
         Label label = new Label(text);
@@ -261,27 +257,26 @@ public class BuyJewelryView implements Builder<Region>{
 
     private Node createPercentangesOptionsBuyContianer(){
        
-        VBox container = new VBox(createTitlePercentages("Porcentaje compra"), createPercentageBuyOptions("Porcentaje compra"));    
+        VBox container = new VBox(createTitlePercentages("Porcentaje compra"), createPercentageBuyOptions());    
         container.setSpacing(10);
 
         return container;
     }
     private Node createPercentangeOptionsCaratageContianer(){
         
-        VBox container = new VBox(createTitlePercentages("Porcentaje kilataje"), createPercentageCaratageOptions("Porcentaje kilataje"));
+        VBox container = new VBox(createTitlePercentages("Porcentaje kilataje"), createPercentageCaratageOptions());
         container.setSpacing(10);
 
         return container;
     }
 
-    private Node createPercentageBuyOptions(String text){
+    private Node createPercentageBuyOptions(){
 
       ComboBox<String> options = new ComboBox<>();
         options.getStyleClass().add("combo-box");
-       options.setPromptText(text);
         options.getItems().addAll("Minimo","Medio","Maximo");
         options.setMinWidth(200);
-        options.setMaxWidth(300);
+        options.setMaxWidth(200);
         options.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 model.caratage_node().set(false);
@@ -294,6 +289,7 @@ public class BuyJewelryView implements Builder<Region>{
                     break;
                     case "Maximo":
                     model.percentages_buy().applied().set(model.percentages_buy().max().get());
+                    break;
                     default:
                     model.percentages_buy().applied().set(0);
                     break;
@@ -304,14 +300,13 @@ public class BuyJewelryView implements Builder<Region>{
         options.disableProperty().bind(model.metal_node());
         return options;
     }
-    private Node createPercentageCaratageOptions(String text){
+    private Node createPercentageCaratageOptions(){
 
         ComboBox<String> options = new ComboBox<>();
           options.getStyleClass().add("combo-box");
-         options.setPromptText(text);
           options.getItems().addAll("Minimo","Medio","Maximo");
           options.setMinWidth(200);
-          options.setMaxWidth(300);
+          options.setMaxWidth(200);
           options.valueProperty().addListener((observable, oldValue, newValue) -> {
               if (newValue != null) {
                   model.caratage_node().set(false);
@@ -324,6 +319,7 @@ public class BuyJewelryView implements Builder<Region>{
                       break;
                       case "Maximo":
                       model.percentages_caratage().applied().set(model.percentages_buy().max().get());
+                      break;
                       default:
                       model.percentages_caratage().applied().set(0);
                       break;
@@ -335,15 +331,19 @@ public class BuyJewelryView implements Builder<Region>{
           return options;
       }
 
-    private Node createLabelPercentagesButton(String text){
-        Label label  =new Label(text);
-        label.getStyleClass().add("label-percentages");
-
+    private Node createMaxAmountLabel() {
+        Label label = new Label();
+        label.getStyleClass().add("max-amount-label");
+        label.textProperty().bind(Bindings.createStringBinding(
+            () -> String.format("%.2f", model.max_purchase_amount().get()),
+            model.max_purchase_amount()
+        ));
         return label;
     }
 
     private Node createCalculateButtonContainer(){
-        VBox container = new VBox(createCalculateButton());
+        VBox container = new VBox(createMaxAmountLabel(), createCalculateButton());
+        container.setSpacing(15);
         container.setPrefHeight(100);
         container.setAlignment(Pos.BOTTOM_LEFT);
         return container;
@@ -354,7 +354,7 @@ public class BuyJewelryView implements Builder<Region>{
         button.setMinWidth(100);
         button.setMinHeight(30);
         button.setOnMouseClicked(evt -> {
-            handlers.get("calculateJewelry").get();
+            handlers.get("calculate").get();
             System.out.println(model.max_purchase_amount().get());
         });
         button.getStyleClass().add("button-calculate");

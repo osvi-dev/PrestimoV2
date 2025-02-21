@@ -44,12 +44,6 @@ public class BuyJewelryModel {
 
 
     public BuyJewelryModel(){ 
-    
-
-        selectors_purchase_node.bind(Bindings.createBooleanBinding(
-            () -> !(caratage_node.get() && weight_node.get()), // Condición: ambos deben ser verdaderos
-            caratage_node, weight_node // Observa cambios en estas propiedades
-        ));
 
     }
 
