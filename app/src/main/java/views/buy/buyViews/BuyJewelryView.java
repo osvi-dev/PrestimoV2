@@ -27,11 +27,11 @@ import views.utils.Responsive;
 public class BuyJewelryView implements Builder<Region>{
     private final VBox container = new VBox();
     private final BuyJewelryModel model;
-    private final HashMap<String, Supplier<Void>> services;
+    private final HashMap<String, Supplier<Void>> handlers;
     private final List<ImageView> images = new ArrayList<>();
-    public BuyJewelryView(BuyJewelryModel model,HashMap<String, Supplier<Void>> services){
+    public BuyJewelryView(BuyJewelryModel model,HashMap<String, Supplier<Void>> handlers){
         this.model = model;
-        this.services = services;
+        this.handlers = handlers;
         this.container.getStylesheets().add(ResourceLoader.load("/css/buy/jewelry.css"));
         Responsive.bindingToParent(container, 1);
     }
@@ -52,7 +52,7 @@ public class BuyJewelryView implements Builder<Region>{
         button.getStyleClass().add("button-photos");
         button.setOnMouseClicked(evt->{
             clean();
-            this.services.get("prev").get();
+            this.handlers.get("prev").get();
 
         });
         return button;
@@ -80,7 +80,7 @@ public class BuyJewelryView implements Builder<Region>{
             /**
              * TODO: Agregar guardado en DB 
              */
-            this.services.get("prev").get();
+            this.handlers.get("prev").get();
             
             
         });
@@ -260,7 +260,7 @@ public class BuyJewelryView implements Builder<Region>{
         button.setMinWidth(100);
         button.setMinHeight(30);
         button.setOnMouseClicked(evt -> {
-            services.get("calculateJewelry").get();
+            handlers.get("calculateJewelry").get();
             System.out.println(model.max_purchase_amount().get());
         });
         button.getStyleClass().add("button-calculate");

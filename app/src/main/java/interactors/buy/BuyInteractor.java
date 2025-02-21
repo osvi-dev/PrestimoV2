@@ -1,5 +1,7 @@
 package interactors.buy;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import models.buy.BuyModel;
 import models.cards.CardsModel;
 
@@ -10,36 +12,37 @@ public class BuyInteractor {
     public BuyInteractor(BuyModel model, CardsModel cardsModel){
         this.model = model;
         this.cardsModel = cardsModel;
+        electronics();
+        whiteGoods();
+        jewelry();
+        cards();
     }
 
 
     public void electronics(){
         model.electronicsVisibleProperty().bind(cardsModel.electronicsProperty());
-        model.electronicsVisibleProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue){
-             cardsModel.whiteGoodsProperty().set(false);
-             cardsModel.jewelryProperty().set(false);
-            }
-        });
+       
 
     }
     public void whiteGoods(){
         model.whiteGoodsVisibleProperty().bind(cardsModel.whiteGoodsProperty());
-        model.whiteGoodsVisibleProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue){
-                cardsModel.electronicsProperty().set(false);
-                cardsModel.jewelryProperty().set(false);
-            }
-        });
+        
     }
     public void jewelry(){
         model.jewelryVisibleProperty().bind(cardsModel.jewelryProperty());
-        model.jewelryVisibleProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue){
-                cardsModel.electronicsProperty().set(false);
-                cardsModel.whiteGoodsProperty().set(false);
-            }
-        });
+       
+    }
+
+    public void cards(){
+        BooleanBinding allFalse = Bindings.createBooleanBinding(
+            () -> !cardsModel.electronicsProperty().get() && 
+                  !cardsModel.whiteGoodsProperty().get() && 
+                  !cardsModel.jewelryProperty().get(),
+            cardsModel.electronicsProperty(),
+            cardsModel.whiteGoodsProperty(),
+            cardsModel.jewelryProperty()
+        );
+        model.cardsVisibleProperty().bind(allFalse);
     }
 
     

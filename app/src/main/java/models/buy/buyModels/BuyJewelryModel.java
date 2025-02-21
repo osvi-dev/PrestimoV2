@@ -43,7 +43,7 @@ public class BuyJewelryModel {
     private final SimpleBooleanProperty manual_weight_node = new SimpleBooleanProperty(true);
 
 
-    public BuyJewelryModel(){
+    public BuyJewelryModel(){ 
     
 
         selectors_purchase_node.bind(Bindings.createBooleanBinding(

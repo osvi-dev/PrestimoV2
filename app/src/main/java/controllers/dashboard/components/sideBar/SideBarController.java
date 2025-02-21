@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import controllers.dashboard.components.option.OptionController;
 import interactors.dashboard.components.sideBar.SideBarInteractor;
-import javafx.geometry.Side;
 import javafx.scene.layout.Region;
 import models.dashboard.components.sideBar.SideBarModel;
 import views.dashboard.components.sideBar.SideBarView;

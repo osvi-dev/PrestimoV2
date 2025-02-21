@@ -1,10 +1,8 @@
 package views.buy;
 
 
-import java.util.function.Predicate;
-
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import models.buy.BuyModel;
 import views.dashboard.ViewDashboard;
 
@@ -20,11 +18,12 @@ public class BuyView extends ViewDashboard {
                   BuyModel model) {
         super("buy", cards,electronics, whiteGoods, jewelry);
         this.model = model;
-        this.container.getChildren().addAll(cards);
         cards.visibleProperty().bind(model.cardsVisibleProperty());
         electronics.visibleProperty().bind(model.electronicsVisibleProperty());
         whiteGoods.visibleProperty().bind(model.whiteGoodsVisibleProperty());
         jewelry.visibleProperty().bind(model.jewelryVisibleProperty());
+        this.container.getChildren().add( new StackPane(cards, electronics, whiteGoods, jewelry));
+        
     }
      
 

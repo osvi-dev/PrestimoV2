@@ -29,7 +29,7 @@ public class DashboardController {
     private final OptionController optionLoanController;
     private final OptionController optionSaleController;
     private final SideBarController sideBarController;
-    private final HashMap<String, Function<?, ?>> service = new HashMap<>();
+    private final HashMap<String, Function<?, ?>> handlers = new HashMap<>();
     /**
      * Constructor del DashboardController. Inicializa el modelo y las vistas.
      */
@@ -64,7 +64,7 @@ public class DashboardController {
                 buyController.getView(),
                 loanController.getView(),
                 saleController.getView(),
-                service,
+                handlers,
                 model
         );
     }

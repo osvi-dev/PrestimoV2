@@ -3,9 +3,7 @@ package controllers.buy;
 
 import controllers.buy.buyControllers.BuyJewelryController;
 import controllers.cards.CardsOptionController;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import interactors.buy.BuyInteractor;
 import javafx.scene.layout.Region;
 import models.buy.BuyModel;
 import views.buy.BuyView;
@@ -16,16 +14,17 @@ public class BuyController {
 
     private final BuyView view;
     private final BuyModel model;
-    private final CardsOptionController cards;
+    private final BuyInteractor interactor;
+    private final CardsOptionController cardsController;
     private final BuyJewelryController buyJewelryController;
 
     public BuyController(){
         this.model =new BuyModel();
         this.buyJewelryController = new BuyJewelryController();
-        this.cards = new CardsOptionController();
-        
+        this.cardsController = new CardsOptionController();
+        this.interactor = new BuyInteractor(model, cardsController.getModel());
         this.view  = new BuyView(
-            cards.getView(),
+            cardsController.getView(),
             new BuyElectronics().build(), 
             new BuyWhiteGoods().build(), 
             buyJewelryController.getView(),

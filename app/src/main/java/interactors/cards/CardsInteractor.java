@@ -14,6 +14,9 @@ public class CardsInteractor {
         this.electronicsModel = electronicsModel;
         this.whiteGoodsModel = whiteGoodsModel;
         this.jewelryModel = jewelryModel;
+        electronics();
+        whiteGoods();
+        jewelry();
     }
 
     public void electronics(){

@@ -1,7 +1,6 @@
 package controllers.buy.buyControllers;
 
 import java.util.HashMap;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 
@@ -15,11 +14,11 @@ public class BuyJewelryController {
 
     private final BuyJewelryModel model;
     private final BuyJewelryView view;
-    private final HashMap<String,Supplier<Void>> services = new HashMap<>();
+    private final HashMap<String,Supplier<Void>> handlers = new HashMap<>();
     public BuyJewelryController(){
         this.model = new BuyJewelryModel();
-        this.services.put("calculateJewelry", this::calculateJewelry);
-        this.view = new BuyJewelryView(model,services);
+        this.handlers.put("calculateJewelry", this::calculateJewelry);
+        this.view = new BuyJewelryView(model,handlers);
     }
     public Region getView(){
         return view.build();
