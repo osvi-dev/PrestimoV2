@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Builder;
 import models.buy.buyModels.BuyJewelryModel;
 import views.utils.ResourceLoader;
@@ -186,7 +188,7 @@ public class BuyJewelryView implements Builder<Region>{
     }
 
     private Node createWeightContainer(){
-        VBox container = new VBox(createWeightField_CaratageContainer(),createContianerWeightButtons(),createCalculateButtonContainer());
+        VBox container = new VBox(createWeightField_CaratageContainer(),createContianerWeightButtons(),createPercentangesOptionsBuyContianer(),createPercentangeOptionsCaratageContianer(), createCalculateButtonContainer());
         Responsive.bindingToParentWidth(container, 1);
         container.setSpacing(10);
 
@@ -246,6 +248,98 @@ public class BuyJewelryView implements Builder<Region>{
         });
 
         return button;
+    }
+
+    
+   
+
+    private Node createTitlePercentages(String text){
+        Label label = new Label(text);
+        label.getStyleClass().add("buy-percentage-title");
+        return label;
+    }
+
+    private Node createPercentangesOptionsBuyContianer(){
+       
+        VBox container = new VBox(createTitlePercentages("Porcentaje compra"), createPercentageBuyOptions("Porcentaje compra"));    
+        container.setSpacing(10);
+
+        return container;
+    }
+    private Node createPercentangeOptionsCaratageContianer(){
+        
+        VBox container = new VBox(createTitlePercentages("Porcentaje kilataje"), createPercentageCaratageOptions("Porcentaje kilataje"));
+        container.setSpacing(10);
+
+        return container;
+    }
+
+    private Node createPercentageBuyOptions(String text){
+
+      ComboBox<String> options = new ComboBox<>();
+        options.getStyleClass().add("combo-box");
+       options.setPromptText(text);
+        options.getItems().addAll("Minimo","Medio","Maximo");
+        options.setMinWidth(200);
+        options.setMaxWidth(300);
+        options.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                model.caratage_node().set(false);
+                switch(newValue){
+                    case "Minimo":
+                    model.percentages_buy().applied().set(model.percentages_buy().min().get());
+                    break;
+                    case "Medio":
+                    model.percentages_buy().applied().set(model.percentages_buy().inter().get());
+                    break;
+                    case "Maximo":
+                    model.percentages_buy().applied().set(model.percentages_buy().max().get());
+                    default:
+                    model.percentages_buy().applied().set(0);
+                    break;
+                    
+                }
+            }
+        });
+        options.disableProperty().bind(model.metal_node());
+        return options;
+    }
+    private Node createPercentageCaratageOptions(String text){
+
+        ComboBox<String> options = new ComboBox<>();
+          options.getStyleClass().add("combo-box");
+         options.setPromptText(text);
+          options.getItems().addAll("Minimo","Medio","Maximo");
+          options.setMinWidth(200);
+          options.setMaxWidth(300);
+          options.valueProperty().addListener((observable, oldValue, newValue) -> {
+              if (newValue != null) {
+                  model.caratage_node().set(false);
+                  switch(newValue){
+                      case "Minimo":
+                      model.percentages_caratage().applied().set(model.percentages_buy().min().get());
+                      break;
+                      case "Medio":
+                      model.percentages_caratage().applied().set(model.percentages_buy().inter().get());
+                      break;
+                      case "Maximo":
+                      model.percentages_caratage().applied().set(model.percentages_buy().max().get());
+                      default:
+                      model.percentages_caratage().applied().set(0);
+                      break;
+                      
+                  }
+              }
+          });
+          options.disableProperty().bind(model.metal_node());
+          return options;
+      }
+
+    private Node createLabelPercentagesButton(String text){
+        Label label  =new Label(text);
+        label.getStyleClass().add("label-percentages");
+
+        return label;
     }
 
     private Node createCalculateButtonContainer(){
