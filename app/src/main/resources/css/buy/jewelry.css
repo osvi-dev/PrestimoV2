@@ -36,7 +36,7 @@
 
 
 .main-right{
-    -fx-background-color: #ff7575;
+  
 }
 .main-left{
 }
@@ -61,4 +61,37 @@
     -fx-text-fill: rgb(255, 255, 255);
     -fx-background-color: #4f6446;
     -fx-cursor: hand;
+}
+
+.button-photos{
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-background-color: #3498db;
+    -fx-cursor: hand;
+}
+.button-photos:hover{
+    -fx-background-color: #f3f3f3;
+    -fx-text-fill: rgb(131, 131, 131);
+    -fx-cursor: hand;
+}
+
+.button-percentages {
+    -fx-background-color: #396aff;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-cursor: hand;
+    -fx-border-radius: 5px; /* Ajusta el valor según el radio deseado */
+    -fx-background-radius: 5px;
+}
+
+.button-percentages:hover {
+    -fx-background-color: #5a8cff;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-cursor: hand;
+}
+.label-percentages{
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-size: 14px;
+}
+.buy-percentage-title{
+    -fx-text-fill: rgb(121,121,121);
+    -fx-font-size: 15px;
 }
