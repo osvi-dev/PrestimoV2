@@ -68,9 +68,11 @@ task modelo {
             throw new GradleException("El nombre del modelo no puede estar vacío.")
         }
         def controllerClassName = "${controllerName}Model"
-
+        
+        // Pasamos el nombre a minusculas
+        def name = controllerName.toLowerCase()
         // Verificamos que exista la carpeta, si no, la creamos
-        def controllerDir = new File("${project.projectDir}/src/main/java/models/${controllerName}")
+        def controllerDir = new File("${project.projectDir}/src/main/java/models/${name}")
         if (!controllerDir.exists()) {
             controllerDir.mkdirs()
         }
@@ -83,7 +85,7 @@ task modelo {
             throw new GradleException("Ya existe un modelo con el nombre proporcionado.")
         } else {
             // Crear el archivo 
-            new File(controllerPath).text = """package models;
+            new File(controllerPath).text = """package models.${name};
 
 public class ${controllerClassName} {
 
@@ -113,9 +115,9 @@ task vista {
             throw new GradleException("El nombre de la vista no puede estar vacío.")
         }
         def controllerClassName = "${controllerName}View"
-
+        def name = controllerName.toLowerCase()
         // Verificamos que exista la carpeta, si no, la creamos
-        def controllerDir = new File("${project.projectDir}/src/main/java/views/${controllerName}")
+        def controllerDir = new File("${project.projectDir}/src/main/java/views/${name}")
         if (!controllerDir.exists()) {
             controllerDir.mkdirs()
         }
@@ -128,7 +130,7 @@ task vista {
             throw new GradleException("Ya existe una vista con el nombre proporcionado.")
         } else {
             // Crear el archivo 
-            new File(controllerPath).text = """package views;
+            new File(controllerPath).text = """package views.${name};
 
 public class ${controllerClassName} {
 
@@ -159,9 +161,10 @@ task controlador {
             throw new GradleException("El nombre  no puede estar vacío.")
         }
         def controllerClassName = "${controllerName}Controller"
-
+        
+        def name = controllerName.toLowerCase()
         // Verificamos que exista la carpeta, si no, la creamos
-        def controllerDir = new File("${project.projectDir}/src/main/java/controllers/${controllerName}")
+        def controllerDir = new File("${project.projectDir}/src/main/java/controllers/${name}")
         if (!controllerDir.exists()) {
             controllerDir.mkdirs()
         }
@@ -174,7 +177,7 @@ task controlador {
             throw new GradleException("Ya existe un controlador con el nombre proporcionado.")
         } else {
             // Crear el archivo 
-            new File(controllerPath).text = """package controllers;
+            new File(controllerPath).text = """package controllers.${name};
 
 public class ${controllerClassName} {
 
@@ -205,9 +208,9 @@ task interactuador {
             throw new GradleException("El nombre del interactuador no puede estar vacío.")
         }
         def controllerClassName = "${controllerName}Interactor"
-
+        def name = controllerName.toLowerCase()
         // Verificamos que exista la carpeta, si no, la creamos
-        def controllerDir = new File("${project.projectDir}/src/main/java/interactors/${controllerName}")
+        def controllerDir = new File("${project.projectDir}/src/main/java/interactors/${name}")
         if (!controllerDir.exists()) {
             controllerDir.mkdirs()
         }
@@ -220,7 +223,7 @@ task interactuador {
             throw new GradleException("Ya existe un interactuador con el nombre proporcionado.")
         } else {
             // Crear el archivo 
-            new File(controllerPath).text = """package interactors;
+            new File(controllerPath).text = """package interactors.${name};
 
 public class ${controllerClassName} {
 
@@ -249,9 +252,9 @@ task objeto {
             throw new GradleException("El nombre del objeto no puede estar vacío.")
         }
         def controllerClassName = "${controllerName}Object"
-
+        def name = controllerName.toLowerCase()
         // Verificamos que exista la carpeta, si no, la creamos
-        def controllerDir = new File("${project.projectDir}/src/main/java/domain_stuff/objects/${controllerName}")
+        def controllerDir = new File("${project.projectDir}/src/main/java/domain_stuff/objects/${name}")
         if (!controllerDir.exists()) {
             controllerDir.mkdirs()
         }
@@ -264,7 +267,7 @@ task objeto {
             throw new GradleException("Ya existe un objecto con el nombre proporcionado.")
         } else {
             // Crear el archivo 
-            new File(controllerPath).text = """package objects;
+            new File(controllerPath).text = """package objects.${name};
 
 public class ${controllerClassName} {
 
@@ -293,9 +296,9 @@ task servicio {
             throw new GradleException("El nombre del servicio no puede estar vacío.")
         }
         def controllerClassName = "${controllerName}Service"
-
+        def name = controllerName.toLowerCase()
         // Verificamos que exista la carpeta, si no, la creamos
-        def controllerDir = new File("${project.projectDir}/src/main/java/domain_stuff/services/${controllerName}")
+        def controllerDir = new File("${project.projectDir}/src/main/java/domain_stuff/services/${name}")
         if (!controllerDir.exists()) {
             controllerDir.mkdirs()
         }
@@ -307,7 +310,7 @@ task servicio {
             throw new GradleException("Ya existe un objecto con el nombre proporcionado.")
         } else {
             // Crear el archivo 
-            new File(controllerPath).text = """package services;
+            new File(controllerPath).text = """package services.${name};
 
 public class ${controllerClassName} {
 
